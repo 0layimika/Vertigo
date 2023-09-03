@@ -1,0 +1,28 @@
+<!-- cart.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Your Cart</h2>
+
+    {% if carts %}
+        <ul>
+        {% for cart_item in carts %}
+            <li>
+                {{ cart_item.product.name }} ({{ cart_item.size}}) |Price: ₦{{ cart_item.product.price }}
+                <form method="post" action="{% url 'update' cart_item_id=cart_item.pk %}">
+                    {% csrf_token %}
+                    <input type="number" name="quantity" value="{{ cart_item.quantity }}" min="1">
+                    <button type="submit">Update Quantity</button>
+                </form>
+            </li>
+            <a href="{% url 'remove' cart_item_id=cart_item.pk %}" class="btn btn-warning">Remove from cart</a>
+        {% endfor %}
+        </ul>
+         <a href="{% url 'checkout' %}" class="btn btn-warning">Check Out</a>
+    {% else %}
+        <h3>Your Cart is Empty</h3>
+    {% endif %}
+
+{#    <h3>Total Price: ₦{{ cat.price }}</h3>#}
+
+{% endblock %}

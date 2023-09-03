@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+    .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    {#justify-content: space-between; /* Adjust this to control horizontal spacing */#}
+
+}
+</style>
+    <div class="card-container">
+        {% for product in products %}
+            <div class="card mb-3" style="width: 18rem; margin: 0 30px 20px 0">
+            <a href="{% url 'details' product_id=product.pk %}" class="card-link">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+                <div class="card-body" style="color: black;">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.summary }}</p>
+                    <h5 class="card-text">₦{{ product.price }}</h5>
+                </div>
+            </a>
+            </div><br>
+
+        {% endfor %}
+    </div>
+{% endblock %}

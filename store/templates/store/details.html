@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content  %}
+<div class="card" style="width:33%;">
+{#<a href="{% url 'details' product_id=product.pk %}" class="card-link">#}
+    <img src="{{ products.image.url }}" class="card-img-top" alt="...">
+    <div class="card-body" style="color: black">
+        <h5 class="card-title">{{ products.name }}</h5>
+        <p class="card-text">{{ products.description }}</p>
+        <h5 class="card-text">₦{{ products.price }}</h5>
+    </div>
+
+{#</a>#}
+</div>
+    <form method="post" action="{% url 'cart' product_id=products.pk %}">
+    {% csrf_token %}
+
+    <label for="size">Select Size:</label>
+    <select name="size" id="size">
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+        <!-- Add more size options as needed -->
+    </select>
+    <button type="submit">Add to Cart</button>
+    </form>
+{#    <a href="{% url 'cart' product_id=products.pk %}" class="btn btn-warning">Add to cart</a>#}
+{% endblock %}
