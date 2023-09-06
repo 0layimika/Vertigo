@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 class Category(models.Model):
     cat_name = models.CharField(max_length=100)
@@ -22,6 +22,7 @@ class product(models.Model):
         return self.description[:40]
 
 class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default='', null=True)
     product = models.ForeignKey(product,on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     size = models.CharField(max_length=10, default='')

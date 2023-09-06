@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*9%zr#+f^8pjhuqiv((yinr_j2b$e9n+nq_xkr%(oy8jhkuw%7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['1e7f-102-88-62-43.ngrok.io']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store.apps.StoreConfig',
+    'accounts.apps.AccountsConfig'
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,6 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+PAYSTACK_SECRET_KEY = "sk_test_6fcc4bbe693190841c333d94e606076e1284d4fc"
+PAYSTACK_PUBLIC_KEY = "pk_test_2662b54aba5e0b6bfbf3bf3a70fae6a986cb5fa9"

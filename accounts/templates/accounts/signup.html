@@ -1,0 +1,55 @@
+{% load static %}
+    <html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+ <link rel="icon" href="#">
+ <script src="{% static 'js/bootstrap.js' %}"></script>
+ <script src="{% static 'js/popper.js' %}"></script>
+
+ <title>Sign Up</title>
+</head>
+<body style="background-color: antiquewhite">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Sign Up</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="{% url 'signup' %}">
+                            {% csrf_token %}
+                            <!-- Add your form fields here -->
+                            <div class="form-group">
+                                <label for="username">Email Address</label>
+                                <input type="email" id="username" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password">Confirm Password</label>
+                                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                        </form>
+                        {% if error %}
+                        {{ error }}
+                        <br>
+                        {% endif %}
+                        <a href="{% url 'login' %}" class="btn btn-primary">Have an account??</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
