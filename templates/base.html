@@ -4,69 +4,67 @@
  <meta charset="UTF-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+ <link rel="stylesheet" href="{% static '' %}">
  <link rel="icon" href="#">
- <script src="{% static 'js/bootstrap.js' %}"></script>
- <script src="{% static 'js/popper.js' %}"></script>
 
  <title>Vertigo</title>
 </head>
 <body style="background-color: antiquewhite;">
- <div class="navbar navbar-expand-lg navbar-light  bg-light">
-  <a class="navbar-brand" style="color: maroon;" href="{% url 'home' %}"><img src="{% static 'images/logo1.png' %}" alt="vertigo" width="70"></a>
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+ <div class="">
+  <a class="" style="color: maroon;" href="{% url 'home' %}"><img src="{% static 'images/logo1.png' %}" alt="vertigo" width="70"></a>
+  <button class="" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-   <span class="navbar-toggler-icon"></span>
+   <span class=""></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-   <ul class="navbar-nav ml-auto">
+  <div class="" id="navbarNav">
+   <ul class="">
     {% if user.is_authenticated %}
-        <form class="d-flex" role="search" method="get" action="{% url 'search' %}">
+        <form class="" role="search" method="get" action="{% url 'search' %}">
         {% csrf_token %}
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+        <button class="" type="submit">Search</button>
       </form>
-       <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'logout' %}">Logout</a>
+       <li class="">
+     <a class="" style="color: black;" href="{% url 'logout' %}">Logout</a>
     </li>
-        <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'shirts' %}">Shirts</a>
+        <li class="">
+     <a class="" style="color: black;" href="{% url 'shirts' %}">Shirts</a>
     </li>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'sweats' %}">Sweats & hoodies</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'sweats' %}">Sweats & hoodies</a>
     </li>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'shorts' %}">Shorts and Cargos</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'shorts' %}">Shorts and Cargos</a>
     </li>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'accessories' %}">Accessories</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'accessories' %}">Accessories</a>
     </li>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'cart_item' %}">Cart</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'cart_item' %}">Cart</a>
     </li>
     {% else %}
-        <form class="d-flex" role="search" method="get" action="{% url 'search' %}">
+        <form class="" role="search" method="get" action="{% url 'search' %}">
         {% csrf_token %}
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+        <button class="" type="submit">Search</button>
       </form>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'signup' %}">Sign UP</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'signup' %}">Sign UP</a>
     </li>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'shirts' %}">Shirts</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'shirts' %}">Shirts</a>
     </li>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'sweats' %}">Sweats & hoodies</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'sweats' %}">Sweats & hoodies</a>
     </li>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'shorts' %}">Shorts and Cargos</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'shorts' %}">Shorts and Cargos</a>
     </li>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'accessories' %}">Accessories</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'accessories' %}">Accessories</a>
     </li>
-    <li class="nav-item">
-     <a class="nav-link" style="color: black;" href="{% url 'cart_item' %}">Cart</a>
+    <li class="">
+     <a class="" style="color: black;" href="{% url 'cart_item' %}">Cart</a>
     </li>
     {% endif %}
    </ul>

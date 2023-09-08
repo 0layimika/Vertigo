@@ -7,16 +7,16 @@
     justify-content: space-between; /* Adjust this to control horizontal spacing */
 }
 </style>
-    <div class="card-container" style="margin-bottom: 10px" >
+    <div class="" style="margin-bottom: 10px" >
         {% for product in product_list %}
 
-            <div class="card" style="width:18rem">
-                <a href="{% url 'details' product_id=product.pk %}" class="card-link">
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="...">
-                    <div class="card-body" style="color: black">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text">{{ product.summary }}</p>
-                        <h5 class="card-text">₦{{ product.price }}</h5>
+            <div class="" style="width:18rem">
+                <a href="{% url 'details' product_id=product.pk %}" class="">
+                    <img src="{{ product.image.url }}" class="" alt="...">
+                    <div class="" style="color: black">
+                        <h5 class="">{{ product.name }}</h5>
+                        <p class="">{{ product.summary }}</p>
+                        <h5 class="">₦{{ product.price }}</h5>
                     </div>
                 </a>
             </div><br>

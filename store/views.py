@@ -3,8 +3,6 @@ from .models import *
 from .forms import *
 from django.views.generic import *
 from django.urls import reverse_lazy,reverse
-import paystack
-from paystackapi.transaction import Transaction
 from django.conf import settings
 # Create your views here.
 class home(ListView):

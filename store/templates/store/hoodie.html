@@ -8,15 +8,15 @@
 
 }
 </style>
-    <div class="card-container">
+    <div class="">
         {% for product in products %}
-            <div class="card mb-3" style="width: 18rem; margin: 0 30px 20px 0">
-            <a href="{% url 'details' product_id=product.pk %}" class="card-link">
-                <img src="{{ product.image.url }}" class="card-img-top" alt="...">
-                <div class="card-body" style="color: black;">
-                    <h5 class="card-title">{{ product.name }}</h5>
-                    <p class="card-text">{{ product.summary }}</p>
-                    <h5 class="card-text">₦{{ product.price }}</h5>
+            <div class="" style="width: 18rem; margin: 0 30px 20px 0">
+            <a href="{% url 'details' product_id=product.pk %}" class="">
+                <img src="{{ product.image.url }}" class="" alt="...">
+                <div class="" style="color: black;">
+                    <h5 class="">{{ product.name }}</h5>
+                    <p class="">{{ product.summary }}</p>
+                    <h5 class="">₦{{ product.price }}</h5>
                 </div>
             </a>
             </div><br>
