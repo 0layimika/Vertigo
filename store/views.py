@@ -4,8 +4,12 @@ from .forms import *
 from django.views.generic import *
 from django.urls import reverse_lazy,reverse
 import paystack
+import paystackapi
 from paystackapi.transaction import Transaction
+import requests
 from django.conf import settings
+from django.contrib import messages
+import urllib.parse
 # Create your views here.
 class home(ListView):
     model = product
@@ -38,20 +42,18 @@ def add_to_cart(request, product_id):
         products = product.objects.get(pk=product_id)
         if request.method == "POST":
             selected_size = request.POST.get("size")
-
-            # Check if a cart item with the same product and size already exists
             existing_cart_item = Cart.objects.filter(user=request.user,product=products, size=selected_size).first()
-
             if existing_cart_item:
-                # If the same product and size combination already exists in the cart, increase quantity
                 existing_cart_item.quantity += 1
                 existing_cart_item.save()
             else:
-                # If it's a new product and size combination, create a new cart item
                 new_cart_item = Cart(user=request.user,product=products, size=selected_size, quantity=1)
                 new_cart_item.save()
         return redirect('details',product_id)
     else:
+        request.session['add_to_cart_product_id'] = product_id
+        request.session['add_to_cart_size'] = request.POST.get("size")
+        messages.info(request, 'Please log in to add the item to your cart.')
         return redirect('login')
 
 def cart(request):
@@ -80,11 +82,60 @@ def checkout(request):
         order = Order()
         order.name = request.POST['name']
         order.address = request.POST['address']
+        order.email = request.POST['email']
         order.save()
-        Cart.objects.filter().delete()
-        return redirect('home')
+        for cart_item in cart_items:
+            order_item = Item(stuff=order, product=cart_item.product, quantity=cart_item.quantity,
+                                   size=cart_item.size)
+            order_item.save()
+            # cart_item.delete()
+        payment_data={
+            "reference":f"1234{order.id}",
+            "amount":total_price*100,
+            "currency":"NGN",
+            "email":order.email,
+            "metadata":{
+                "order_id":order.id
+            },
+            "callback_url":"https://wearvertigo.onrender.com/store/"
+        }
+        encoded_data = urllib.parse.urlencode(payment_data)
+
+        # Redirect the user to the Paystack payment page
+        paystack_payment_url = f"https://checkout.paystack.com/?{encoded_data}"
+        return render(request, 'store/checkout.html', {'paystack_payment_url': paystack_payment_url})
+        # return redirect('home')
     else:
         return render(request, 'store/checkout.html', {'cart_items': cart_items, 'total_price':total_price})
+
+def payment_callback(request):
+    cart_items = Cart.objects.filter(user=request.user)
+    # Retrieve and verify the payment response from Paystack
+    reference = request.GET.get('reference')
+
+    # Make an API request to verify the payment status
+    import requests
+    response = requests.get(f"https://api.paystack.co/transaction/verify/{reference}", headers={
+        "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}"
+    })
+
+    if response.status_code == 200:
+        payment_data = response.json()
+        if payment_data['data']['status'] == 'success':
+            # Update the order status to "Paid" or perform other necessary actions
+            order_id = payment_data['data']['metadata']['order_id']
+            order = Order.objects.get(pk=order_id)
+            order.payment_status = True
+            order.save()
+            cart_items.delete()
+            return render(request, 'store/success.html')
+        else:
+            # Handle payment failure
+            return render(request, 'store/error.html', {'error_message': 'Payment failed'})
+    else:
+        # Handle API error
+        return render(request, 'store/error.html', {'error_message': 'Unable to verify payment'})
+
 
 def search(request):
    s_query = request.GET.get('search')
