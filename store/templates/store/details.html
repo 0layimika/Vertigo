@@ -1,27 +1,33 @@
 {% extends 'base.html' %}
 {% block content  %}
-<div class="" style="width:33%;">
-{#<a href="{% url 'details' product_id=product.pk %}" class="card-link">#}
-    <img src="{{ products.image.url }}" class="" alt="...">
-    <div class="" style="color: black">
-        <h5 class="">{{ products.name }}</h5>
-        <p class="">{{ products.description }}</p>
-        <h5 class="">₦{{ products.price }}</h5>
-    </div>
 
-{#</a>#}
+
+<div class="max-w-[1200px] mt-[16px] bg-white w-[95%] p-[20px] mx-auto grid gap-[16px] relative">
+    <div class="" style="width:33%;">
+        {#<a href="{% url 'details' product_id=product.pk %}" class="card-link">#}
+            <img src="{{ products.image.url }}" class="" alt="...">
+            <div class="" style="color: black">
+                <h5 class="">{{ products.name }}</h5>
+                <p class="">{{ products.description }}</p>
+                <h5 class="">₦{{ products.price }}</h5>
+            </div>
+        
+        {#</a>#}
+        </div>
+            <form method="post" action="{% url 'cart' product_id=products.pk %}">
+            {% csrf_token %}
+        
+            <label for="size">Select Size:</label>
+            <select name="size" id="size">
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+                <!-- Add more size options as needed -->
+            </select>
+            <button type="submit">Add to Cart</button>
+            </form>
+        {#    <a href="{% url 'cart' product_id=products.pk %}" class="btn btn-warning">Add to cart</a>#}
 </div>
-    <form method="post" action="{% url 'cart' product_id=products.pk %}">
-    {% csrf_token %}
 
-    <label for="size">Select Size:</label>
-    <select name="size" id="size">
-        <option value="small">Small</option>
-        <option value="medium">Medium</option>
-        <option value="large">Large</option>
-        <!-- Add more size options as needed -->
-    </select>
-    <button type="submit">Add to Cart</button>
-    </form>
-{#    <a href="{% url 'cart' product_id=products.pk %}" class="btn btn-warning">Add to cart</a>#}
+
 {% endblock %}

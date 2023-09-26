@@ -1,25 +1,28 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<style>
-    .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* Adjust this to control horizontal spacing */
-}
-</style>
-    <div class="" style="margin-bottom: 10px" >
+
+<main class="home-page">
+    {% comment %} <img class="banner w-full h-[70vh] object-cover" src="{% static 'images/banner.png' %}" class="" alt="...">
+    <img class="banner w-full h-[400px] object-cover hidden" src="{% static 'images/banner-mb.png' %}" class="" alt="..."> {% endcomment %}
+</main>
+    <div class="px-[12px] grid grid-cols-4 max-w-[1440px] items-center content-center gap-[12px] mx-auto  w-full overflow-x-hidden place-content-center">
         {% for product in product_list %}
 
-            <div class="" style="width:18rem">
-                <a href="{% url 'details' product_id=product.pk %}" class="">
-                    <img src="{{ product.image.url }}" class="" alt="...">
-                    <div class="" style="color: black">
-                        <h5 class="">{{ product.name }}</h5>
-                        <p class="">{{ product.summary }}</p>
-                        <h5 class="">₦{{ product.price }}</h5>
+            <div class="bg-grey p-2 rounded-l w-[226px] md:w-[300px]">
+                <a href="{% url 'details' product_id=product.pk %}" class="flex flex-col h-full">
+                    <div class="flex-grow group relative">
+                        <img class="rounded-md p-[5px] w-full h-[200px] md:h-[422px] object-cover product-image" src="{{ product.image.url }}" class="" alt="...">
+                    </div>
+
+                    <div class="text-soft-black mt-2">
+                        <h5 class="leading-tight pb-[10px]">{{ product.name }}</h5>
+                        {{ product.summary }}
+                        {% comment %} <p class="hidden">{{ product.summary }}</p> {% endcomment %}
+                        <h5 class="border font-bold border-soft-black p-[10px] text-center hover:rounded-md hover:text-white hover:bg-black transition duration-300 ease-in-out">₦{{ product.price }}</h5>
                     </div>
                 </a>
-            </div><br>
+            </div>
 
         {% endfor %}
     </div>

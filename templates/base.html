@@ -1,76 +1,173 @@
 {% load static %}
-    <html lang="en">
-<head>
- <meta charset="UTF-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link rel="stylesheet" href="{% static '' %}">
- <link rel="icon" href="#">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;1,700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <link rel="icon" href="#"/>
+    <title>Vertigo</title>
+  </head>
+  <body class="relative font-main bg-grey">
+    <main class="max-w-[100%] mx-auto relative">
+      <!-- ===== Overlays ====== -->
+      <div
+        class="overlay-nav h-[100vh] w-full bg-black absolute top-[71px] left-0 transition-opacity z-20 duration-[0.3s] ease-in-out hidden"
+      ></div>
 
- <title>Vertigo</title>
-</head>
-<body style="background-color: antiquewhite;">
- <div class="">
-  <a class="" style="color: maroon;" href="{% url 'home' %}"><img src="{% static 'images/logo1.png' %}" alt="vertigo" width="70"></a>
-  <button class="" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-   aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-   <span class=""></span>
-  </button>
-  <div class="" id="navbarNav">
-   <ul class="">
-    {% if user.is_authenticated %}
-        <form class="" role="search" method="get" action="{% url 'search' %}">
-        {% csrf_token %}
-        <input class="" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
-        <button class="" type="submit">Search</button>
-      </form>
-       <li class="">
-     <a class="" style="color: black;" href="{% url 'logout' %}">Logout</a>
-    </li>
-        <li class="">
-     <a class="" style="color: black;" href="{% url 'shirts' %}">Shirts</a>
-    </li>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'sweats' %}">Sweats & hoodies</a>
-    </li>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'shorts' %}">Shorts and Cargos</a>
-    </li>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'accessories' %}">Accessories</a>
-    </li>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'cart_item' %}">Cart</a>
-    </li>
-    {% else %}
-        <form class="" role="search" method="get" action="{% url 'search' %}">
-        {% csrf_token %}
-        <input class="" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
-        <button class="" type="submit">Search</button>
-      </form>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'signup' %}">Sign UP</a>
-    </li>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'shirts' %}">Shirts</a>
-    </li>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'sweats' %}">Sweats & hoodies</a>
-    </li>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'shorts' %}">Shorts and Cargos</a>
-    </li>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'accessories' %}">Accessories</a>
-    </li>
-    <li class="">
-     <a class="" style="color: black;" href="{% url 'cart_item' %}">Cart</a>
-    </li>
-    {% endif %}
-   </ul>
-  </div>
- </div>
-{% block content %}
-{% endblock %}
-</body>
+      <div
+        class="overlay-search h-[100vh] z-20 w-full bg-black absolute top-[71px] left-0 transition-opacity duration-[0.3s] ease-in-out hidden"
+      ></div>
+
+      <!-- ===== Navigation ====== -->
+      <nav class="flex justify-between items-center px-[24px] py-[15px] sticky top-0 z-20 w-full bg-white">
+        <div class="flex items-center gap-[14px] relative">
+
+          <!-- ===== Menu Buttons ====== -->
+          <div class="w-[24px] lg:hidden">
+            <button class="menu-btn relative z-30 lg:hidden" type="button" aria-label="Toggle navigation" >
+              <img class="w-[24px]" src="{% static 'images/hamburger-menu.svg' %}" alt="menu" />
+                <span class="sr-only">Menu</span>
+              </button>
+          </div>
+
+          <!-- ===== Search Button ====== -->
+          <button class="inline-block lg:hidden search-btn">
+            <img class="w-[24px]" src="{% static 'images/search.svg' %}" alt="search" />
+            <span class="sr-only">Search</span>
+          </button>
+
+          <!-- ===== Nav Menus ====== -->
+          <div class="hidden lg:block">
+            <ul class="flex gap-[15px]">
+              <li class="py-[3px] relative">
+                <a class="text-[15px] nav__link" href="{% url 'shirts' %}">
+                  Shirts
+                  </a>
+              </li>
+              <li class="py-[3px] relative">
+                <a class="text-[15px] nav__link"  href="{% url 'sweats' %}">
+                  Sweats & hoodies</a>
+              </li>
+              <li class="py-[3px] relative">
+                <a class="text-[15px] nav__link" href="{% url 'shorts' %}">
+                  Shorts and Cargos
+                </a>
+              </li>
+              <li class="py-[3px] relative">
+                <a class="text-[15px] nav__link" href="{% url 'accessories' %}">
+                  Accessories
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ===== VERTIGO LOGO ====== -->
+        <a class="inline-block absolute top-[16px] left-[50%] translate-x-[-50%] md:translate-x-[-45%] " href="{% url 'home' %}">
+          <img class="w-[85px]" src="{% static 'images/logo1.png' %}" alt="vertigo"/>
+        </a>
+
+        <!-- ===== Nav Icons ====== -->
+        <ul class="h-[41px] flex gap-[17px] items-center">
+          <li>
+            <a class="hidden lg:block search-btn" href="#" ><img class="w-[24px]" src="{% static 'images/search.svg' %}" alt="search" /></a>
+          </li>
+      
+          {% if user.is_authenticated %}
+          <li class="">
+            <a class="" href="{% url 'cart_item' %}"> <img class="w-[24px]" src="{% static 'images/cart.svg' %}" alt="menu" /> </a>
+          </li>
+          <li>
+            <a class="" href="{% url 'logout' %}"> <img class="w-[24px]" src="{% static 'images/user.svg' %}" alt="user" />  </a>
+          </li>
+          {% else %}
+          <li class="">
+            <a class="" href="{% url 'cart_item' %}"> <img class="w-[24px]" src="{% static 'images/cart.svg' %}" alt="menu" /> </a>
+          </li>
+          <li>
+            <a class="" href="{% url 'signup' %}"> <img class="w-[24px]" src="{% static 'images/user.svg' %}" alt="user" />  </a>
+          </li>
+          {% endif %}
+        </ul>
+
+
+        <!-- ===== Search Box Menu ====== -->
+      <div class="fixed top-[71px] left-0 w-[375px] md:w-[500px] bg-white h-full z-30 p-[24px] hidden search-box transform -translate-x-full transition-transform duration-[700ms] ease-in-out shadow-custom">
+
+        <!-- ===== Search Box ====== -->
+        <div class="flex gap-[15px] items-start">
+          <form class="flex gap-[10px] items-center border-[1.5px] rounded-sm border-gold px-[5px] mb-[15px]" role="search" method="get" action="{% url 'search' %}" >
+            {% csrf_token %}
+            <button type="submit" ><img class="w-[24px]" src="{% static 'images/search.svg' %}" alt="search" /></button>
+            <input
+              class="outline-none w-[250px] md:w-[375px] p-[8px] " type="search" placeholder="Search" aria-label="Search" name="search" id="search"
+            />
+          </form>
+          <img class="w-[24px] inline-block closeSearch cursor-pointer" src="{% static 'images/exit-menu.svg' %}" alt="close" />
+        </div>
+
+        <!-- ===== History of Searches ====== -->
+        <div class="text-[15px] mb-[18px]">
+          <h2 class="text-soft-black opacity-80 pb-[5px]">Trending Searches</h2>
+          <p>shorts</p>
+          <p>cargo shorts</p>
+          <p>leather jackets</p>
+          <p>black hoodies</p>
+          <p>sweatshirts</p>
+        </div>
+
+        <div class="text-[15px]">
+          <h2 class="text-soft-black opacity-80 pb-[5px]">Trending Products</h2>
+          <p>shorts</p>
+          <p>cargo shorts</p>
+          <p>leather jackets</p>
+          <p>black hoodies</p>
+          <p>sweatshirts</p>
+        </div>
+
+        <img></img>
+      </div>
+
+      <!-- ===== Mobile Nav Menu ====== -->
+      <div class="fixed top-[69px] bottom-0 left-0 w-[375px] bg-white h-full z-30 py-[24px] hidden mobile-nav transform -translate-x-full transition-transform duration-[700ms] ease-in-out shadow-custom">
+
+        <button class="menu-close absolute right-[24px] top-[24px] cursor-pointer" type="button" aria-label="Toggle navigation">
+          <img class="w-[24px]" src="{% static 'images/exit-menu.svg' %}" alt="close" />
+          <span class="sr-only">Menu</span>
+        </button>
+
+        <ul class="grid gap-[5px] pt-[50px]">
+          <li class="py-[13px] px-[24px] bg-grey hover:bg-grey group">
+            <a class="flex justify-between items-center"  href="{% url 'shirts' %}">Shirts <span class="text-[18px] rotate-[-36deg] group-hover:rotate-0 transition ease-linear">&rarr;</span> </a>           
+          </li>
+          <li class="py-[13px] px-[24px] hover:bg-grey group">
+            <a class="flex justify-between items-center"  href="{% url 'sweats' %}"
+              >Sweats & hoodies <span class="text-[18px] rotate-[-36deg] group-hover:rotate-0 transition ease-linear">&rarr;</span></a>
+            </li>
+          <li class="py-[13px] px-[24px] hover:bg-grey group">
+            <a class="flex justify-between items-center"  href="{% url 'shorts' %}"
+              >Shorts and Cargos <span class="text-[18px] rotate-[-36deg] group-hover:rotate-0 transition ease-linear">&rarr;</span></a>
+          </li>
+          <li class="py-[13px] px-[24px] hover:bg-grey group">
+            <a class="flex justify-between items-center"  href="{% url 'accessories' %}">Accessories <span class="text-[18px] rotate-[-36deg] group-hover:rotate-0 transition ease-linear">&rarr;</span></a>
+          </li>
+        </ul>
+      </div>
+      </nav>
+
+      {% comment %} <header class=" h-[450px] w-full">
+
+      </header> {% endcomment %}
+      
+
+      <section></section>
+      <section class="" id="">{% block content %} {% endblock %}</section>
+    </main>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
 </html>

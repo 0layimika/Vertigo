@@ -1,22 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="">
-    <h2>Checkout</h2>
+<div class="max-w-[1200px] w-full p-[20px] mt-[24px] mx-auto grid gap-[16px] relative font-serif">
+    <h2 class ="text-[32px] font-light ">Billing Details</h2>
 
     <!-- Checkout Form -->
-    <form method="post" action="{% url 'checkout' %}">
+    <form id="checkout-form" class="max-w-[1000px] bg-white w-[95%] p-[20px] mt-[24px] shadow-custom mx-auto grid gap-[16px] relative" method="post" action="{% url 'checkout' %}">
         {% csrf_token %}
 
         <!-- Shipping Information -->
-        <h3>Shipping Information</h3>
-        <div class="">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" class="" required>
+        <h3 class="text-[24px]">Shipping Information</h3>
+        <div class="flex flex-col gap-[5px] relative pb-[18px]">
+            <label for="name">Name<sup class="text-dark-red opacity-75">*</sup></label>
+            <input class="bg-white border border-gold p-[12px] rounded-sm shadow-sm outline-none" type="text" name="name" id="name" placeholder="John Doe" required>
+            <div class="error-message text-dark-red text-[10px] absolute bottom-0 left-0 hidden" id="name-error">Please fill in your name.</div>
         </div>
-        <div class="">
-            <label for="address">Address</label>
-            <input type="text" name="address" id="address" class="" required>
+        <div class="flex flex-col gap-[5px] relative pb-[18px]">
+            <label for="address">Address<sup class="text-dark-red opacity-75">*</sup></label>
+            <input class="bg-white border border-gold p-[12px] rounded-sm shadow-sm outline-none" type="text" name="address" id="address" placeholder="123 Residential Address" required>
+            <div class="error-message text-dark-red text-[10px] absolute bottom-0 left-0 hidden" id="address-error">Please fill in your address</div>
         </div>
         <!-- Add more shipping fields as needed -->
 
@@ -33,16 +35,22 @@
 {#        <!-- Add more payment fields as needed -->#}
 {##}
         <!-- Order Summary -->
-        <h3>Order Summary</h3>
-        <ul>
+        <h3 class="text-[20px] text-grey-btn">Order Summary</h3>
+        <ul class="bg-grey p-[10px] font-main">
             {% for item in cart_items %}
-            <li>{{ item.product.name }} ({{ item.size }}) - Quantity: {{ item.quantity }} - Price: ₦{{ item.product.price }}</li>
+            <li class="flex flex-col pb-[15px]">
+                <p class="font-medium">{{ item.product.name }} [{{ item.size }}] </p>
+                <div class="flex justify-between items-start">
+                    <p>Qty : {{ item.quantity }}</p>
+                    <p>Sub-Total : ₦{{ item.product.price }}</p>
+                </div>
+            </li>
             {% endfor %}
         </ul>
-        <h3>Total Price: ₦{{ total_price }}</h3>
+        <p class="shadow-sm text-center font-main w-fit text-[16px] py-[12px] px-[24px] ml-auto">Total : <span class="font-bold text-[18px]">₦{{ total_price }}</span></p>
 
         <!-- Submit Button -->
-        <button type="submit" class="">Place Order</button>
+        <button type="submit" class="checkout-btn group shadow-md border border-black text-center font-main outline-none w-fit text-[14px] py-[12px] px-[60px] bg-black text-white hover:bg-white hover:text-black hover:rounded-md transition duration-300 ml-auto flex items-center gap-[10px]">Place Order <span class="text-[18px] rotate-[-36deg] group-hover:rotate-0 transition ease-linear">&rarr;</span></button>
     </form>
 </div>
 {% endblock %}

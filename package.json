@@ -1,0 +1,24 @@
+{
+  "name": "vertigo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-css" : "npx tailwindcss -i Vertigo/static/tw/tailwind-input.css -o Vertigo/static/css/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0layimika/Vertigo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0layimika/Vertigo/issues"
+  },
+  "homepage": "https://github.com/0layimika/Vertigo#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
+  }
+}
