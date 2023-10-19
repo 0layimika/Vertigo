@@ -16,6 +16,6 @@ urlpatterns=[
     path('checkout/',views.checkout,name='checkout'),
     path('update/<int:cart_item_id>',views.cart_update,name='update'),
     path('search/',views.search,name='search'),
-    path('payment/callback',views.payment_callback)
+    path('payment/callback',views.payment_callback, name='payment_callback')
 
 ]

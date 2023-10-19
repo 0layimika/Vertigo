@@ -1,10 +1,15 @@
+import paystackapi.transaction
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.views.generic import *
+from django.http import HttpResponse
 import urllib.parse
 import requests
 from django.conf import settings
 from django.contrib import messages
+from django.urls import reverse
+import paystackapi
+import random, string
 # Create your views here.
 class home(ListView):
     model = product
@@ -95,6 +100,7 @@ def checkout(request):
     total_price = sum(
         float(item.product.price.replace(',', '')) * item.quantity for item in cart_items
     )
+
     if request.method == 'POST':
         order = Order()
         order.name = request.POST['name']
@@ -109,17 +115,21 @@ def checkout(request):
                 size=cart_item.size,
             )
             order_item.save()
+            ref = ''.join(random.choice(string.ascii_lowercase) for i in range(7))
         payment_data = {
-            "reference": f"order_{order.id}",
+            "reference": f"{ref}_{order.id}",
             "amount": int(total_price * 100),
             "currency": "NGN",
             "email": order.email,
             "metadata": {"order_id": order.id},
-            "callback_url": "https://127.0.0.1/store/payment/callback",
+            "callback_url": request.build_absolute_uri(reverse('payment_callback')),
         }
-        encoded_data = urllib.parse.urlencode(payment_data)
-        paystack_payment_url = f"https://checkout.paystack.com/?{encoded_data}"
-        return redirect(paystack_payment_url)
+        # encoded_data = urllib.parse.urlencode(payment_data)
+        # paystack_payment_url = f"https://checkout.paystack.com/?{encoded_data}"
+        # return redirect(paystack_payment_url)
+        transaction = paystackapi.transaction.Transaction.initialize(**payment_data)
+        return redirect(transaction['data']['authorization_url'])
+
     else:
         return render(
             request,
@@ -129,21 +139,34 @@ def checkout(request):
 
 def payment_callback(request):
     reference = request.GET.get('reference')
-    response = requests.get(
-        f"https://api.paystack.co/transaction/verify/{reference}",
-        headers={"Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}"},
-    )
-    if response.status_code == 200:
-        payment_data = response.json()
-        if payment_data['data']['status'] == 'success':
-            # Update the order status to "Paid" or perform other necessary actions
-            order_id = payment_data['data']['metadata']['order_id']
-            order = Order.objects.get(pk=order_id)
-            order.payment_status = True
-            order.save()
-            Cart.objects.filter(user=request.user).delete()
-            return render(request, 'store/success.html', {'order': order})
-    return render(request, 'store/error.html', {'error_message': 'Payment failed'})
+    verify_transaction = paystackapi.transaction.Transaction.verify(reference)
+
+    # Check if the payment is successful
+    if verify_transaction['data']['status'] == 'success':
+        # Update your order status or perform other actions
+        order_id = int(request.GET['order_id'])
+        order = Order.objects.get(id=order_id)
+        order.paid = True
+        order.save()
+
+        return HttpResponse("Payment successful")
+    else:
+        return HttpResponse("Payment failed")
+    # response = requests.get(
+    #     f"https://api.paystack.co/transaction/verify/{reference}",
+    #     headers={"Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}"},
+    # )
+    # if response.status_code == 200:
+    #     payment_data = response.json()
+    #     if payment_data['data']['status'] == 'success':
+    #         # Update the order status to "Paid" or perform other necessary actions
+    #         order_id = payment_data['data']['metadata']['order_id']
+    #         order = Order.objects.get(pk=order_id)
+    #         order.payment_status = True
+    #         order.save()
+    #         Cart.objects.filter(user=request.user).delete()
+    #         return render(request, 'store/success.html', {'order': order})
+    # return render(request, 'store/error.html', {'error_message': 'Payment failed'})
 
 def search(request):
    s_query = request.GET.get('search')
