@@ -19,24 +19,10 @@
             <input type="text" name="address" id="address" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="address">Email</label>
+            <label for="email">Email</label>
             <input type="text" name="email" id="email" class="form-control" required>
         </div>
-        <!-- Add more shipping fields as needed -->
 
-        <!-- Payment Information -->
-{#        <h3>Payment Information</h3>#}
-{#        <div class="form-group">#}
-{#            <label for="card_number">Card Number</label>#}
-{#            <input type="text" name="card_number" id="card_number" class="form-control" required>#}
-{#        </div>#}
-{#        <div class="form-group">#}
-{#            <label for="expiry_date">Expiry Date</label>#}
-{#            <input type="text" name="expiry_date" id="expiry_date" class="form-control" required>#}
-{#        </div>#}
-{#        <!-- Add more payment fields as needed -->#}
-{##}
-        <!-- Order Summary -->
         <h3>Order Summary</h3>
         <ul>
             {% for item in cart_items %}

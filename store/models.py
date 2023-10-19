@@ -39,6 +39,7 @@ class Item(models.Model):
         return f"{self.quantity} x {self.product.name}({self.size})"
 
 class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default='', null=True)
     name = models.CharField(max_length=100, default='')
     address = models.TextField(default='')
     items = models.ManyToManyField(Item)

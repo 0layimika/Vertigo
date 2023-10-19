@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store.apps.StoreConfig',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'djangoflutterwave'
 ]
 
 MIDDLEWARE = [
@@ -133,5 +134,7 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# FLUTTERWAVE_SECRET_KEY = "FLWSECK_TEST-c7f02f831130ade5f071afe1326640f3-X"
+# FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK_TEST-9492999e7c7903d6433ff1826a5ddb0e-X"
 PAYSTACK_SECRET_KEY = "sk_test_6fcc4bbe693190841c333d94e606076e1284d4fc"
 PAYSTACK_PUBLIC_KEY = "pk_test_2662b54aba5e0b6bfbf3bf3a70fae6a986cb5fa9"

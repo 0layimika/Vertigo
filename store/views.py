@@ -1,15 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
-from .forms import *
 from django.views.generic import *
-from django.urls import reverse_lazy,reverse
-import paystack
-import paystackapi
-from paystackapi.transaction import Transaction
+import urllib.parse
 import requests
 from django.conf import settings
 from django.contrib import messages
-import urllib.parse
 # Create your views here.
 class home(ListView):
     model = product
@@ -75,9 +70,31 @@ def cart_update(request, cart_item_id):
         kart.save()
     return redirect('cart_item')
 
+# def checkout(request):
+#     cart_items = Cart.objects.filter(user=request.user)
+#     total_price = sum(float(item.product.price.replace(',', '')) * item.quantity for item in cart_items)
+#     if request.method == 'POST':
+#         order = Order()
+#         order.name = request.POST['name']
+#         order.address = request.POST['address']
+#         order.email = request.POST['email']
+#         order.save()
+#         for cart_item in cart_items:
+#             order_item = Item(stuff=order, product=cart_item.product, quantity=cart_item.quantity,
+#                                    size=cart_item.size)
+#             order_item.save()
+#             cart_item.delete()
+#
+#         return redirect('home')
+#     else:
+#         return render(request, 'store/checkout.html', {'cart_items': cart_items, 'total_price':total_price,})
+
+
 def checkout(request):
     cart_items = Cart.objects.filter(user=request.user)
-    total_price = sum(float(item.product.price.replace(',', '')) * item.quantity for item in cart_items)
+    total_price = sum(
+        float(item.product.price.replace(',', '')) * item.quantity for item in cart_items
+    )
     if request.method == 'POST':
         order = Order()
         order.name = request.POST['name']
@@ -85,40 +102,37 @@ def checkout(request):
         order.email = request.POST['email']
         order.save()
         for cart_item in cart_items:
-            order_item = Item(stuff=order, product=cart_item.product, quantity=cart_item.quantity,
-                                   size=cart_item.size)
+            order_item = Item(
+                stuff=order,
+                product=cart_item.product,
+                quantity=cart_item.quantity,
+                size=cart_item.size,
+            )
             order_item.save()
-            # cart_item.delete()
-        payment_data={
-            "reference":f"1234{order.id}",
-            "amount":total_price*100,
-            "currency":"NGN",
-            "email":order.email,
-            "metadata":{
-                "order_id":order.id
-            },
-            "callback_url":"https://wearvertigo.onrender.com/store/"
+        payment_data = {
+            "reference": f"order_{order.id}",
+            "amount": int(total_price * 100),
+            "currency": "NGN",
+            "email": order.email,
+            "metadata": {"order_id": order.id},
+            "callback_url": "https://127.0.0.1/store/payment/callback",
         }
         encoded_data = urllib.parse.urlencode(payment_data)
-
-        # Redirect the user to the Paystack payment page
         paystack_payment_url = f"https://checkout.paystack.com/?{encoded_data}"
-        return render(request, 'store/checkout.html', {'paystack_payment_url': paystack_payment_url})
-        # return redirect('home')
+        return redirect(paystack_payment_url)
     else:
-        return render(request, 'store/checkout.html', {'cart_items': cart_items, 'total_price':total_price})
+        return render(
+            request,
+            'store/checkout.html',
+            {'cart_items': cart_items, 'total_price': total_price},
+        )
 
 def payment_callback(request):
-    cart_items = Cart.objects.filter(user=request.user)
-    # Retrieve and verify the payment response from Paystack
     reference = request.GET.get('reference')
-
-    # Make an API request to verify the payment status
-    import requests
-    response = requests.get(f"https://api.paystack.co/transaction/verify/{reference}", headers={
-        "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}"
-    })
-
+    response = requests.get(
+        f"https://api.paystack.co/transaction/verify/{reference}",
+        headers={"Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}"},
+    )
     if response.status_code == 200:
         payment_data = response.json()
         if payment_data['data']['status'] == 'success':
@@ -127,15 +141,9 @@ def payment_callback(request):
             order = Order.objects.get(pk=order_id)
             order.payment_status = True
             order.save()
-            cart_items.delete()
-            return render(request, 'store/success.html')
-        else:
-            # Handle payment failure
-            return render(request, 'store/error.html', {'error_message': 'Payment failed'})
-    else:
-        # Handle API error
-        return render(request, 'store/error.html', {'error_message': 'Unable to verify payment'})
-
+            Cart.objects.filter(user=request.user).delete()
+            return render(request, 'store/success.html', {'order': order})
+    return render(request, 'store/error.html', {'error_message': 'Payment failed'})
 
 def search(request):
    s_query = request.GET.get('search')
