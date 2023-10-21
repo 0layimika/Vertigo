@@ -87,15 +87,45 @@ updateCart.forEach((btn, index) => {
   });
 });
 
-checkoutBtn.addEventListener("click", function (event) {
-  const inputFields = form.querySelectorAll("input[required]");
-  inputFields.forEach((inputField) => {
-    const errorMessage = document.getElementById(inputField.id + "-error");
-    if (inputField.value.trim() === "") {
-      errorMessage.style.display = "block";
-      event.preventDefault();
-    } else {
-      errorMessage.style.display = "none";
+const currentPageURL = window.location.href;
+if (currentPageURL === "http://127.0.0.1:8000/store/checkout/") {
+  checkoutBtn.addEventListener("click", function (event) {
+    const inputFields = form.querySelectorAll("input[required]");
+    inputFields.forEach((inputField) => {
+      const errorMessage = document.getElementById(inputField.id + "-error");
+      if (inputField.value.trim() === "") {
+        errorMessage.style.display = "block";
+        event.preventDefault();
+      } else {
+        errorMessage.style.display = "none";
+      }
+    });
+  });
+}
+
+const labels = document.querySelectorAll(".size");
+console.log(labels);
+labels.forEach((lbl) => {
+  lbl.addEventListener("click", function () {
+    console.log(this);
+    var radioInput = this.querySelector('input[type="radio"]');
+    if (radioInput) {
+      console.log(this);
+      radioInput.checked = true;
+    }
+  });
+});
+
+const sizeLabels = document.querySelectorAll(".size");
+sizeLabels.forEach((label) => {
+  label.addEventListener("change", function () {
+    sizeLabels.forEach((l) => {
+      l.parentElement.classList.remove("bg-black");
+      l.parentElement.classList.remove("text-white");
+    });
+    if (label.checked) {
+      label.parentElement.classList.add("bg-black");
+      label.parentElement.classList.add("text-white");
     }
   });
 });

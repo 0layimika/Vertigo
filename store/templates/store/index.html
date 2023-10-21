@@ -1,29 +1,34 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
+{% load static %}
 
-<main class="home-page">
-    {% comment %} <img class="banner w-full h-[70vh] object-cover" src="{% static 'images/banner.png' %}" class="" alt="...">
-    <img class="banner w-full h-[400px] object-cover hidden" src="{% static 'images/banner-mb.png' %}" class="" alt="..."> {% endcomment %}
-</main>
-    <div class="px-[12px] grid grid-cols-4 max-w-[1440px] items-center content-center gap-[12px] mx-auto  w-full overflow-x-hidden place-content-center">
+     <!-- Index Page -->
+    <section class="px-[8px] py-[24px] mx-auto w-fit max-w-[1440px]">
+    <h2 class="uppercase font-bold text-[21px] tracking-wide">Shop All</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-[12px]">
         {% for product in product_list %}
 
-            <div class="bg-grey p-2 rounded-l w-[226px] md:w-[300px]">
-                <a href="{% url 'details' product_id=product.pk %}" class="flex flex-col h-full">
-                    <div class="flex-grow group relative">
-                        <img class="rounded-md p-[5px] w-full h-[200px] md:h-[422px] object-cover product-image" src="{{ product.image.url }}" class="" alt="...">
+            <div class="bg-white rounded-md w-full max-w-[210px] xsm:max-w-[235px] s:max-w-[280px] md:max-w-[300px] overflow-hidden flex flex-col h-[340px] md:h-[320px] relative hover:scale-[1.02] hover:shadow-lg transition-all duration-300 ease-in-out ">
+                <a href="{% url 'details' product_id=product.pk %}" class="flex-grow">
+                    <div class="image-container h-[150px] xsm:h-[170px] bg-grey-btn">
+                         {% comment %} <img class="w-full h-full" src="{{ product.image.url }}" alt="..."> {% endcomment %}
                     </div>
 
-                    <div class="text-soft-black mt-2">
-                        <h5 class="leading-tight pb-[10px]">{{ product.name }}</h5>
-                        {{ product.summary }}
-                        {% comment %} <p class="hidden">{{ product.summary }}</p> {% endcomment %}
-                        <h5 class="border font-bold border-soft-black p-[10px] text-center hover:rounded-md hover:text-white hover:bg-black transition duration-300 ease-in-out">₦{{ product.price }}</h5>
+                    <div class="flex flex-col flex-grow gap-[5px] p-[8px]">
+                        <h5 class="font-bold text-[15px]">{{ product.name }}</h5>
+                        <p class="text-[12px] font-light pb-[10px]">{{ product.summary }}</p>
+                        <div class="border p-2 text-center rounded-sm absolute bottom-[8px] left-0 right-0 w-[97%] mx-auto">
+                            <p class="text-[14px] flex items-center gap-[10px] mx-auto w-fit relative bottom-0">
+                                <img class="w-[16px]" src="{% static 'images/cart.svg' %}"> -
+                                ₦{{ product.price }}
+                            </p>
+                        </div>
                     </div>
                 </a>
             </div>
 
         {% endfor %}
     </div>
+
+    </section>
 {% endblock %}

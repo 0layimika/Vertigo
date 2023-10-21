@@ -2,30 +2,42 @@
 {% block content  %}
 
 
-<div class="max-w-[1200px] mt-[16px] bg-white w-[95%] p-[20px] mx-auto grid gap-[16px] relative">
-    <div class="" style="width:33%;">
-        {#<a href="{% url 'details' product_id=product.pk %}" class="card-link">#}
-            <img src="{{ products.image.url }}" class="" alt="...">
-            <div class="" style="color: black">
-                <h5 class="">{{ products.name }}</h5>
-                <p class="">{{ products.description }}</p>
-                <h5 class="">₦{{ products.price }}</h5>
+
+
+<div class="max-w-[1200px] mt-[16px] bg-white w-[95%] p-[20px] mx-auto details">
+    <div class="flex flex-col items-start gap-[16px] details s:flex-row max-w-[800px]">
+        <div class="w-full relative rounded-md overflow-hidden s:max-h-[270px] s:max-w-[285px]">
+            {#<a href="{% url 'details' product_id=product.pk %}" class="card-link">#}
+                <img src="{{ products.image.url }}" class="" alt="...">
+            {#</a>#}
             </div>
-        
-        {#</a>#}
-        </div>
-            <form method="post" action="{% url 'cart' product_id=products.pk %}">
-            {% csrf_token %}
-        
-            <label for="size">Select Size:</label>
-            <select name="size" id="size">
-                <option value="small">Small</option>
-                <option value="medium">Medium</option>
-                <option value="large">Large</option>
-                <!-- Add more size options as needed -->
-            </select>
-            <button type="submit">Add to Cart</button>
-            </form>
+            <div class="">
+                <div class=" flex flex-col gap-[10px] pb-[12px]">
+                    <h4 class="font-bold text-[24px] leading-[1.1]">{{ products.name }}</h4>
+                    <p class="font-semibold text-[18px]">₦{{ products.price }}</p>
+                </div>
+                <form class="grid gap-[10px]" id="select-size" method="post" action="{% url 'cart' product_id=products.pk %}">
+                {% csrf_token %}
+                    </select>
+                    <div class="grid grid-cols-3 items-start gap-[10px] w-full pb-[13px]">
+                        <label  class="inline-block p-[5px] px-[10px] text-center border border-grey-btn hover:bg-black hover:text-white text-[13px] cursor-pointer">
+                            <input class="hidden size" type="radio" name="size" value="Large">
+                            Large
+                        </label>
+                        <label class="inline-block p-[5px] px-[10px] border text-center border-grey-btn hover:bg-black hover:text-white text-[13px] cursor-pointer">
+                            <input class="hidden size" type="radio" name="size" value="Meduim">
+                            Meduim
+                        </label>
+                        <label class="inline-block p-[5px] px-[10px] border text-center border-grey-btn hover:bg-black hover:text-white text-[13px] cursor-pointer">
+                            <input class="hidden size" type="radio" name="size" value="Small">
+                            Small
+                        </label>
+                    </div>
+                    <p class="text-[14px]">{{ products.description }}</p>
+                    <button type="submit" class="bg-black text-white p-[8px] hover:rounded-sm font-semibold hover:bg-white hover:text-black border-[0.5px] transition-all duration-150 ease-linear">Add to Cart</button>
+                </form>
+            </div>
+        <div>
         {#    <a href="{% url 'cart' product_id=products.pk %}" class="btn btn-warning">Add to cart</a>#}
 </div>
 
