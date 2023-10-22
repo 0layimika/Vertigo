@@ -3,6 +3,7 @@
 {% load static %}
 
      <!-- Index Page -->
+     {% if products %}
     <section class="px-[8px] py-[24px] mx-auto w-fit max-w-[1440px]">
     <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-[12px]">
         {% for product in products %}
@@ -27,6 +28,20 @@
             </div>
 
         {% endfor %}
+        {% else %}
+        <div class="max-w-[1440px] bg-white w-[95%] p-[20px] mt-[24px] shadow-custom mx-auto grid place-content-center gap-[16px]">
+            <div class="bg-grey rounded-full p-[24px] h-full w-[120px] mx-auto">
+                <img class="h-full w-[120px] mx-auto" src="{% static 'images/empty-cart.svg' %}">
+            </div>
+            <h3 class="text-center font-main">No such product found.</h3>
+            <p class="text-center">Explore Our Fashion Categories and Find Your Perfect Style!</p>
+            <a class="uppercase shadow-lg text-center w-fit mx-auto font-main text-[14px] p-[12px] bg-black text-white hover:bg-soft-black hover:rounded-sm transition" href="{% url 'home' %}">
+                Shop Other Items
+            </a>
+        </div>
+
+
+        {% endif %}
     </div>
 
     </section>
