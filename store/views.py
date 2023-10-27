@@ -106,6 +106,7 @@ def checkout(request):
             "callback_url": request.build_absolute_uri(reverse('payment_callback')),
         }
         transaction = paystack.transaction.initialize(**payment_data)
+        print(transaction)
         return redirect(transaction['data']['authorization_url'])
     else:
         return render(
@@ -118,6 +119,7 @@ def payment_callback(request):
     try:
         reference = request.GET.get('reference')
         verify_transaction = paystackapi.transaction.Transaction.verify(reference)
+        print(verify_transaction)
         # Check if the payment is successful
         if verify_transaction.get('status') == True:
             # Update your order status or perform other actions
